@@ -211,6 +211,13 @@ const ApiUserHandler = {
     }
 };
 
+const RequestLog = {
+    process(handlerInput) {
+        console.log("REQUEST ENVELOPE = " + JSON.stringify(handlerInput.requestEnvelope));
+        return;
+    }
+};
+
 const formsHandler = new FormListHandler(forms, ApiUserHandler);
 
 const requestHandlers = Alexa.SkillBuilders.custom()
@@ -229,6 +236,8 @@ const requestHandlers = Alexa.SkillBuilders.custom()
         IntentReflectorHandler, // make sure IntentReflectorHandler is last so it doesn't override your custom intent handlers
     ).addErrorHandlers(
         ErrorHandler,
+    ).addRequestInterceptors(
+        RequestLog
     );
 
 // Add dynamo db persistence if required
